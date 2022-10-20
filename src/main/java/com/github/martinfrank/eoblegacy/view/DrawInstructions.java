@@ -1,6 +1,6 @@
 package com.github.martinfrank.eoblegacy.view;
 
-import com.github.martinfrank.eoblegacy.map.DemoMapField;
+import com.github.martinfrank.eoblegacy.map.EobLegacyMapField;
 import com.github.martinfrank.eoblegacy.resources.ImageId;
 import com.github.martinfrank.eoblegacy.resources.TileClipping;
 import com.github.martinfrank.eoblegacy.resources.TileLocation;
@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class DrawInstructions {
 
-    private final Map<ViewPortPosition, DemoMapField> viewPort;
+    private final Map<ViewPortPosition, EobLegacyMapField> viewPort;
 
-    public DrawInstructions(Map<ViewPortPosition, DemoMapField> viewPort) {
+    public DrawInstructions(Map<ViewPortPosition, EobLegacyMapField> viewPort) {
         this.viewPort = viewPort;
     }
 
@@ -269,12 +269,12 @@ public class DrawInstructions {
     }
 
     private boolean isEmpty(ViewPortPosition position) {
-        DemoMapField field = viewPort.get(position);
+        EobLegacyMapField field = viewPort.get(position);
         return field != null && !field.isSolid();
     }
 
     private boolean isSolid(ViewPortPosition position) {
-        DemoMapField field = viewPort.get(position);
+        EobLegacyMapField field = viewPort.get(position);
         return field == null || field.isSolid();
     }
 }

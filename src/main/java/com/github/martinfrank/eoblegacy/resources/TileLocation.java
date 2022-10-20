@@ -4,7 +4,7 @@ public enum TileLocation {
 
     FIRST_ROW_LEFT(0,0), //160b, 120h
     FIRST_ROW_CENTER(0,0),
-    FIRST_ROW_RIGHT(120,0),
+    FIRST_ROW_RIGHT(118,0),
 
     SECOND_ROW_VERY_LEFT (0,0),
     SECOND_ROW_LEFT (0,0),

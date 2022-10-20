@@ -1,20 +1,20 @@
 package com.github.martinfrank.eoblegacy.model;
 
-import com.github.martinfrank.eoblegacy.map.DemoMapField;
+import com.github.martinfrank.eoblegacy.map.EobLegacyMapField;
 
 public class Monster{
 
     private Direction lookingDirection = Direction.NORTH;
-    private DemoMapField field;
+    private EobLegacyMapField field;
     public boolean isHero() {
         return false;
     }
 
-    public DemoMapField getField() {
+    public EobLegacyMapField getField() {
         return field;
     }
 
-    public void setField(DemoMapField field) {
+    public void setField(EobLegacyMapField field) {
         this.field = field;
     }
 

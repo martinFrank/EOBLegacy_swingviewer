@@ -1,9 +1,10 @@
 package com.github.martinfrank.eoblegacy.view;
 
-import com.github.martinfrank.eoblegacy.map.DemoMap;
-import com.github.martinfrank.eoblegacy.map.DemoMapField;
-import com.github.martinfrank.eoblegacy.model.*;
-import com.github.martinfrank.geolib.GeoPoint;
+import com.github.martinfrank.eoblegacy.map.EobLegacyMap;
+import com.github.martinfrank.eoblegacy.map.EobLegacyMapField;
+import com.github.martinfrank.eoblegacy.model.Direction;
+import com.github.martinfrank.eoblegacy.model.Hero;
+import com.github.martinfrank.maplib2.geo.Point;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,60 +14,60 @@ import java.util.stream.Collectors;
 
 public class HeroView {
 
-    private final Map<ViewPortPosition, DemoMapField> viewPort = new HashMap<>();
+    private final Map<ViewPortPosition, EobLegacyMapField> viewPort = new HashMap<>();
 
-    public void create(DemoMap demoMap, Hero hero) {
-        GeoPoint center = hero.getField().getIndex();
-        List<GeoPoint> absolutPositions = calculateAbsolutePositions(hero.getLookingDirection(), center);
+    public void create(EobLegacyMap eobLegacyMap, Hero hero) {
+        Point center = hero.getField().position;
+        List<Point> absolutPositions = calculateAbsolutePositions(hero.getLookingDirection(), center);
         ViewPortPosition[] viewPortPositions = ViewPortPosition.values();
         for (int i = 0; i < viewPortPositions.length; i++) {
-            viewPort.put(viewPortPositions[i], demoMap.getField(absolutPositions.get(i).getX(), absolutPositions.get(i).getY()));
+            viewPort.put(viewPortPositions[i], eobLegacyMap.fields.getField(absolutPositions.get(i).x, absolutPositions.get(i).y));
         }
     }
 
-    private List<GeoPoint> calculateAbsolutePositions(Direction lookingDirection, GeoPoint center) {
+    private List<Point> calculateAbsolutePositions(Direction lookingDirection, Point center) {
         return Arrays.stream(ViewPortPosition.values())
                 .map(p -> mapWithDirection(lookingDirection, center, p)).collect(Collectors.toList());
     }
 
-    private GeoPoint mapWithDirection(Direction lookingDirection, GeoPoint center, ViewPortPosition viewPortPosition) {
+    private Point mapWithDirection(Direction lookingDirection, Point center, ViewPortPosition viewPortPosition) {
         switch (lookingDirection) {
             case NORTH:
-                return new GeoPoint(
-                        center.getX() + viewPortPosition.relativePosition.getX(),
-                        center.getY() + viewPortPosition.relativePosition.getY()
+                return new Point(
+                        center.x + viewPortPosition.relativePosition.x,
+                        center.y + viewPortPosition.relativePosition.y
                 );
             case EAST:
-                return new GeoPoint(
-                        center.getX() - viewPortPosition.relativePosition.getY(),
-                        center.getY() + viewPortPosition.relativePosition.getX()
+                return new Point(
+                        center.x - viewPortPosition.relativePosition.y,
+                        center.y + viewPortPosition.relativePosition.x
                 );
             case SOUTH:
-                return new GeoPoint(
-                        center.getX() - viewPortPosition.relativePosition.getX(),
-                        center.getY() - viewPortPosition.relativePosition.getY()
+                return new Point(
+                        center.x - viewPortPosition.relativePosition.x,
+                        center.y - viewPortPosition.relativePosition.y
                 );
             case WEST:
-                return new GeoPoint(
-                        center.getX() + viewPortPosition.relativePosition.getY(),
-                        center.getY() - viewPortPosition.relativePosition.getX()
+                return new Point(
+                        center.x + viewPortPosition.relativePosition.y,
+                        center.y - viewPortPosition.relativePosition.x
                 );
             default:
                 throw new IllegalArgumentException();
         }
     }
 
-    public Map<ViewPortPosition,DemoMapField> getViewPortFields() {
+    public Map<ViewPortPosition, EobLegacyMapField> getViewPortFields() {
         return viewPort;
     }
 
     public boolean isEmpty(ViewPortPosition position) {
-        DemoMapField field = getViewPortFields().get(position);
+        EobLegacyMapField field = getViewPortFields().get(position);
         return field != null && !field.isSolid();
     }
 
     public boolean isSolid(ViewPortPosition position) {
-        DemoMapField field = getViewPortFields().get(position);
+        EobLegacyMapField field = getViewPortFields().get(position);
         return field == null || field.isSolid();
     }
 

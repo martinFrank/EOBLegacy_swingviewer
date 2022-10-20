@@ -25,21 +25,85 @@ public enum Direction {
 
     public static int getDy(Direction current, MoveDirection moveDirection) {
         switch (current){
-            case NORTH : return moveDirection == MoveDirection.FORWARD ? -1 : 1;
-            case EAST : return 0;
-            case SOUTH : return moveDirection == MoveDirection.FORWARD ? 1 : -1;
-            case WEST : return 0;
+            case NORTH : return getDyFacingNorth(moveDirection);
+            case EAST : return getDyFacingEast(moveDirection);
+            case SOUTH : return getDyFacingSouth(moveDirection);
+            case WEST : return getDyFacingWest(moveDirection);
             default: throw new IllegalStateException();
+        }
+    }
+
+    private static int getDyFacingEast(MoveDirection moveDirection) {
+        switch(moveDirection){
+            case STRAFE_LEFT: return -1;
+            case STRAFE_RIGHT: return 1;
+            default:return 0;
+        }
+    }
+
+    private static int getDyFacingWest(MoveDirection moveDirection) {
+        switch(moveDirection){
+            case STRAFE_LEFT: return 1;
+            case STRAFE_RIGHT: return -1;
+            default:return 0;
+        }
+    }
+
+    private static int getDyFacingSouth(MoveDirection moveDirection) {
+        switch(moveDirection){
+            case FORWARD: return 1;
+            case BACKWARD: return -1;
+            default:return 0;
+        }
+    }
+
+    private static int getDyFacingNorth(MoveDirection moveDirection) {
+        switch(moveDirection){
+            case FORWARD: return -1;
+            case BACKWARD: return 1;
+            default:return 0;
         }
     }
 
     public static int getDx(Direction current, MoveDirection moveDirection) {
         switch (current){
-            case NORTH : return 0;
-            case EAST : return moveDirection == MoveDirection.FORWARD ? 1 : -1;
-            case SOUTH : return 0;
-            case WEST : return moveDirection == MoveDirection.FORWARD ? -1 : 1;
+            case NORTH : return getDxFacingNorth(moveDirection);
+            case EAST : return getDxFacingEast(moveDirection);
+            case SOUTH : return getDxFacingSouth(moveDirection);
+            case WEST : return getDxFacingWest(moveDirection);
             default: throw new IllegalStateException();
+        }
+    }
+
+    private static int getDxFacingWest(MoveDirection moveDirection) {
+        switch(moveDirection){
+            case FORWARD: return -1;
+            case BACKWARD: return 1;
+            default:return 0;
+        }
+    }
+
+    private static int getDxFacingSouth(MoveDirection moveDirection) {
+        switch(moveDirection){
+            case STRAFE_LEFT: return 1;
+            case STRAFE_RIGHT: return -1;
+            default:return 0;
+        }
+    }
+
+    private static int getDxFacingEast(MoveDirection moveDirection) {
+        switch(moveDirection){
+            case FORWARD: return 1;
+            case BACKWARD: return -1;
+            default:return 0;
+        }
+    }
+
+    private static int getDxFacingNorth(MoveDirection moveDirection) {
+        switch(moveDirection){
+            case STRAFE_LEFT: return -1;
+            case STRAFE_RIGHT: return 1;
+            default:return 0;
         }
     }
 }

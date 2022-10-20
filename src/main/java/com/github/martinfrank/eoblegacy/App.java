@@ -1,10 +1,17 @@
 package com.github.martinfrank.eoblegacy;
 
-import com.github.martinfrank.eoblegacy.map.DemoMap;
-import com.github.martinfrank.eoblegacy.map.DemoMapFactory;
-import com.github.martinfrank.eoblegacy.map.DemoMapPartFactory;
-import com.github.martinfrank.eoblegacy.map.DemoMapWalker;
-import com.github.martinfrank.maplib.MapStyle;
+
+import com.github.martinfrank.eoblegacy.map.EobLegacyMapEdge;
+import com.github.martinfrank.eoblegacy.map.EobLegacyMapField;
+import com.github.martinfrank.eoblegacy.map.EobLegacyMapNode;
+import com.github.martinfrank.eoblegacy.map.EobLegacyMapPartFactory;
+import com.github.martinfrank.maplib2.generate.MapGenerationParameter;
+import com.github.martinfrank.maplib2.generate.MapGenerator;
+import com.github.martinfrank.maplib2.map.Map;
+import com.github.martinfrank.maplib2.map.MapStyle;
+import com.github.martinfrank.maplib2.maze.MazeAlgorithmType;
+import com.github.martinfrank.maplib2.maze.MazeGenerationParams;
+import com.github.martinfrank.maplib2.maze.MazeGenerator;
 
 public class App
 {
@@ -16,12 +23,14 @@ public class App
 
     private void start() {
 
-        DemoMapPartFactory mapPartFactory = new DemoMapPartFactory();
-        DemoMapFactory mapFactory = new DemoMapFactory(mapPartFactory);
-//        demoMap = mapFactory.createMap(12, 6, MapStyle.HEX_HORIZONTAL);
-        DemoMap demoMap = mapFactory.createMap(64, 64, MapStyle.SQUARE4);
-        demoMap.scale(3f);
-        DemoMapWalker walker = mapPartFactory.createWalker();
+        MapGenerationParameter parameter = MapGenerationParameter.newBuilder().width(64).height(64)
+                .mapStyle(MapStyle.SQUARE).build();
+
+        EobLegacyMapPartFactory factory = new EobLegacyMapPartFactory();
+        Map<EobLegacyMapField, EobLegacyMapEdge, EobLegacyMapNode> map = MapGenerator.generate(parameter, factory);
+
+        MazeGenerationParams params = MazeGenerationParams.newBuilder().algorithm(MazeAlgorithmType.RECURSIVE_BACKTRACKER_EDGES).build();
+        MazeGenerator.generateMaze(map, params);
 
     }
 }
