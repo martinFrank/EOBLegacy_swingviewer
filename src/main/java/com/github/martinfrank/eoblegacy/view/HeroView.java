@@ -4,7 +4,7 @@ import com.github.martinfrank.eoblegacy.map.EobLegacyMap;
 import com.github.martinfrank.eoblegacy.map.EobLegacyMapField;
 import com.github.martinfrank.eoblegacy.model.Direction;
 import com.github.martinfrank.eoblegacy.model.Hero;
-import com.github.martinfrank.maplib2.geo.Point;
+import com.github.martinfrank.maplib2.geo.DiscreetPoint;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,38 +17,38 @@ public class HeroView {
     private final Map<ViewPortPosition, EobLegacyMapField> viewPort = new HashMap<>();
 
     public void create(EobLegacyMap eobLegacyMap, Hero hero) {
-        Point center = hero.getField().position;
-        List<Point> absolutPositions = calculateAbsolutePositions(hero.getLookingDirection(), center);
+        DiscreetPoint center = hero.getField().position;
+        List<DiscreetPoint> absolutPositions = calculateAbsolutePositions(hero.getLookingDirection(), center);
         ViewPortPosition[] viewPortPositions = ViewPortPosition.values();
         for (int i = 0; i < viewPortPositions.length; i++) {
-            viewPort.put(viewPortPositions[i], eobLegacyMap.fields.getField(absolutPositions.get(i).x, absolutPositions.get(i).y));
+            viewPort.put(viewPortPositions[i], eobLegacyMap.getField(absolutPositions.get(i).x, absolutPositions.get(i).y));
         }
     }
 
-    private List<Point> calculateAbsolutePositions(Direction lookingDirection, Point center) {
+    private List<DiscreetPoint> calculateAbsolutePositions(Direction lookingDirection, DiscreetPoint center) {
         return Arrays.stream(ViewPortPosition.values())
                 .map(p -> mapWithDirection(lookingDirection, center, p)).collect(Collectors.toList());
     }
 
-    private Point mapWithDirection(Direction lookingDirection, Point center, ViewPortPosition viewPortPosition) {
+    private DiscreetPoint mapWithDirection(Direction lookingDirection, DiscreetPoint center, ViewPortPosition viewPortPosition) {
         switch (lookingDirection) {
             case NORTH:
-                return new Point(
+                return new DiscreetPoint(
                         center.x + viewPortPosition.relativePosition.x,
                         center.y + viewPortPosition.relativePosition.y
                 );
             case EAST:
-                return new Point(
+                return new DiscreetPoint(
                         center.x - viewPortPosition.relativePosition.y,
                         center.y + viewPortPosition.relativePosition.x
                 );
             case SOUTH:
-                return new Point(
+                return new DiscreetPoint(
                         center.x - viewPortPosition.relativePosition.x,
                         center.y - viewPortPosition.relativePosition.y
                 );
             case WEST:
-                return new Point(
+                return new DiscreetPoint(
                         center.x + viewPortPosition.relativePosition.y,
                         center.y - viewPortPosition.relativePosition.x
                 );

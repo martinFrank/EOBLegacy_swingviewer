@@ -22,8 +22,7 @@ public class EobLegacyMap extends Map<EobLegacyMapField, EobLegacyMapEdge, EobLe
     }
 
     public Hero findHero() {
-
-        for (EobLegacyMapField field: fields.getAll() ){
+        for (EobLegacyMapField field: getFields()){
             if (field.isHeroField() ){
                 return (Hero) field.getMonster();
             }
@@ -35,15 +34,15 @@ public class EobLegacyMap extends Map<EobLegacyMapField, EobLegacyMapEdge, EobLe
         if(from == null){
             return null;
         }
-        int x = (int)from.position.x;
-        int y = (int)from.position.y;
+        int x = from.position.x;
+        int y = from.position.y;
         int dx = Direction.getDx(current, moveDirection);
         int dy = Direction.getDy(current, moveDirection);
-        return fields.getField(x+dx,y+dy);
+        return getField(x+dx,y+dy);
     }
 
     public EobLegacyMapField findField(Monster monster){
-        for (EobLegacyMapField field: fields.getAll() ){
+        for (EobLegacyMapField field: getFields() ){
             if(monster.equals(field.getMonster())){
                 return field;
             }

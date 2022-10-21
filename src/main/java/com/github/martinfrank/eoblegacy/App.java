@@ -29,7 +29,10 @@ public class App
         EobLegacyMapPartFactory factory = new EobLegacyMapPartFactory();
         Map<EobLegacyMapField, EobLegacyMapEdge, EobLegacyMapNode> map = MapGenerator.generate(parameter, factory);
 
-        MazeGenerationParams params = MazeGenerationParams.newBuilder().algorithm(MazeAlgorithmType.RECURSIVE_BACKTRACKER_EDGES).build();
+        MazeGenerationParams params = MazeGenerationParams
+                .newBuilder()
+                .algorithm(MazeAlgorithmType.RECURSIVE_BACKTRACKER_FIELDS)
+                .build();
         MazeGenerator.generateMaze(map, params);
 
     }
